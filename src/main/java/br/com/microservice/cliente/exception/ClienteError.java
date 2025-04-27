@@ -20,4 +20,11 @@ public final class ClienteError {
             super(message);
         }
     }
+
+    @ResponseStatus(HttpStatus.CONFLICT) // HTTP 409
+    public static final class ClienteAlreadyExistsException extends RuntimeException {
+        public ClienteAlreadyExistsException(String message) {
+            super(message);
+        }
+    }
 }

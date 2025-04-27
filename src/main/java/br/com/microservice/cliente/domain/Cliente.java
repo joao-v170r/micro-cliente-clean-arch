@@ -3,6 +3,7 @@ package br.com.microservice.cliente.domain;
 import br.com.microservice.cliente.domain.value_objects.CPF;
 import br.com.microservice.cliente.domain.value_objects.Endereco;
 import br.com.microservice.cliente.domain.value_objects.Telefone;
+import br.com.microservice.cliente.exception.ClienteError;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
@@ -77,18 +78,18 @@ public class Cliente {
 
     private String validaEmail(String email) {
         if (email == null || email.trim().isEmpty()) {
-            throw new IllegalArgumentException("email esta vazio");
+            throw new ClienteError.ClienteIllegalArgumentException("email esta vazio");
         }
 
         // Verifica se tem @ e pelo menos um . após o @
         int posArroba = email.indexOf('@');
         if (posArroba <= 0 || posArroba == email.length() - 1) {
-            throw new IllegalArgumentException("o (@) do email está invalido");
+            throw new ClienteError.ClienteIllegalArgumentException("o (@) do email está invalido");
         }
 
         String dominio = email.substring(posArroba + 1);
         if(!dominio.contains(".") || dominio.lastIndexOf('.') == dominio.length() - 1){
-            throw new IllegalArgumentException("o (.) do email está invalido");
+            throw new ClienteError.ClienteIllegalArgumentException("o (.) do email está invalido");
         }
 
         return email;
@@ -105,7 +106,7 @@ public class Cliente {
 
     private String validaNome(String nome) {
         if(nome.trim().length() < TAMANHO_NOME_MIN) {
-            throw new IllegalArgumentException("nome não pode ser vazio");
+            throw new ClienteError.ClienteIllegalArgumentException("nome não pode ser vazio");
         }
         return nome;
     }
@@ -132,14 +133,14 @@ public class Cliente {
 
     public void setEnderecos(Set<Endereco> enderecos) {
         if(enderecos.isEmpty()) {
-            throw new IllegalArgumentException("nao pode ter enderecos vazios");
+            throw new ClienteError.ClienteIllegalArgumentException("nao pode ter enderecos vazios");
         }
         this.enderecos = enderecos;
     }
 
     public void setTelefone(Set<Telefone> telefones) {
         if(telefones.isEmpty()) {
-            throw new IllegalArgumentException("nao pode ter telefones vazios");
+            throw new ClienteError.ClienteIllegalArgumentException("nao pode ter telefones vazios");
         }
         this.telefones = telefones;
     }

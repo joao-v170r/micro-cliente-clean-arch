@@ -1,6 +1,7 @@
 package br.com.microservice.cliente.gateway;
 
 import br.com.microservice.cliente.domain.Cliente;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,4 +14,5 @@ public interface CrudClienteGateway {
     List<Cliente> findAll();
     Cliente save(Cliente cliente);
     void deleteById(Long id);
+    List<Cliente> findAll(Pageable page);
 }

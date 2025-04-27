@@ -5,7 +5,7 @@ import br.com.microservice.cliente.domain.value_objects.Telefone;
 
 import java.time.LocalDate;
 
-public record CriarClienteDTO (
+public record CreateClienteDTO(
         String nome,
         String cpf,
         String email,

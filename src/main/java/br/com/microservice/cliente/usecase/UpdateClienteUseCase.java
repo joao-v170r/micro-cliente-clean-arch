@@ -16,7 +16,7 @@ public class UpdateClienteUseCase {
         this.gateway = gateway;
     }
 
-    public Cliente update(Long id, UpdateClienteDTO clienteDTO) {
+    public ClienteDTO update(Long id, UpdateClienteDTO clienteDTO) {
         Cliente cliente = gateway.findById(id)
                 .orElseThrow(() -> new RuntimeException("UpdateClienteUseCase: id do cliente não encontrado"));
 
@@ -40,6 +40,6 @@ public class UpdateClienteUseCase {
             cliente.setEnderecos(clienteDTO.enderecos());
         }
 
-        return gateway.save(cliente);
+        return ClienteMapper.mapToDTO(gateway.save(cliente));
     }
 }
