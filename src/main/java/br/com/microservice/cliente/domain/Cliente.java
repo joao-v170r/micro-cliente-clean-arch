@@ -19,7 +19,7 @@ public class Cliente {
     public static final int TAMANHO_NOME_MIN = 2;
     public static final int IDADE_MIN = 11;
 
-    private final Long id;
+    private final String id;
     private String nome;
     private final CPF cpf;
     private String email;
@@ -27,7 +27,7 @@ public class Cliente {
     private Set<Endereco> enderecos;
     private Set<Telefone> telefones;
 
-    private Cliente(Long id, String nome, CPF cpf, String email, LocalDate dataNascimento, Set<Endereco> enderecos, Set<Telefone> telefones) {
+    private Cliente(String id, String nome, CPF cpf, String email, LocalDate dataNascimento, Set<Endereco> enderecos, Set<Telefone> telefones) {
         this.id = id;
         this.nome = validaNome(nome);
         this.cpf = cpf;
@@ -39,7 +39,7 @@ public class Cliente {
 
     public static Cliente criar(
             String nome,
-            String cpf,
+            CPF cpf,
             String email,
             LocalDate dataNascimento,
             Endereco endereco,
@@ -48,7 +48,7 @@ public class Cliente {
         return new Cliente(
                 null,
                 nome,
-                new CPF(cpf),
+                cpf,
                 email,
                 dataNascimento,
                 Set.of(endereco),
@@ -57,7 +57,7 @@ public class Cliente {
     }
 
     public static Cliente reconstituir(
-            Long id,
+            String id,
             String nome,
             CPF cpf,
             String email,

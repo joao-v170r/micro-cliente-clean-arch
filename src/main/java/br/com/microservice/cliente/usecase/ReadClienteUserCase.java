@@ -20,7 +20,7 @@ public class ReadClienteUserCase {
         this.gateway = gateway;
     }
 
-    public ClienteDTO find(Long id) {
+    public ClienteDTO find(String id) {
         Cliente cliente = gateway.findById(id).orElseThrow(
                 () -> new ClienteError.ClienteNotFoundException("cliente não encontrado"));
         return ClienteMapper.mapToDTO(cliente);

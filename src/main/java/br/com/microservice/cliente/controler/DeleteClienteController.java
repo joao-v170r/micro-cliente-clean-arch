@@ -4,6 +4,7 @@ import br.com.microservice.cliente.usecase.DeleteClienteUseCase;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,7 +27,7 @@ public class DeleteClienteController {
     @Operation(
             summary = "Deleta um cliente"
     )
-    public ResponseEntity<Void> delete(@NotNull @PathVariable Long id) {
+    public ResponseEntity<Void> delete(@NotBlank @PathVariable String id) {
         useCase.delete(id);
         return ResponseEntity.noContent().build();
     }

@@ -64,8 +64,8 @@ public record CPF(
 
     // Versão que lança exceção para casos de uso mais rigorosos
     public CPF {
-        if (!validarCPF(this.numero())) {
-            throw new IllegalArgumentException("CPF inválido: " + this.numero());
+        if (!validarCPF(numero)) {
+            throw new IllegalArgumentException("CPF inválido: " + numero);
         }
     }
 }

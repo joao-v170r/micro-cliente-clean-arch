@@ -30,7 +30,7 @@ public class UpdateClienteController {
     @Operation(
             summary = "Atualiza alguns dados de um cliente"
     )
-    public ResponseEntity<ClienteDTO> update(@PathVariable Long id, @Valid @RequestBody InputUpdateClienteDTO input){
+    public ResponseEntity<ClienteDTO> update(@PathVariable String id, @Valid @RequestBody InputUpdateClienteDTO input){
         return ResponseEntity.ok(useCase.update(
                 id,
                 new UpdateClienteDTO(

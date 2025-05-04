@@ -13,7 +13,7 @@ public class DeleteClienteUseCase {
         this.gateway = gateway;
     }
 
-    public void delete(Long id) {
+    public void delete(String id) {
         Cliente cliente = gateway.findById(id).orElseThrow(RuntimeException::new);
         gateway.deleteById(cliente.getId());
     }

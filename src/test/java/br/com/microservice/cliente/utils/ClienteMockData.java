@@ -1,12 +1,16 @@
 package br.com.microservice.cliente.utils;
 
 import br.com.microservice.cliente.domain.Cliente;
+import br.com.microservice.cliente.domain.value_objects.CPF;
 import br.com.microservice.cliente.domain.value_objects.Endereco;
 import br.com.microservice.cliente.domain.value_objects.Telefone;
 import br.com.microservice.cliente.dto.rest_controller.InputCreateClienteDTO;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
 
 public class ClienteMockData {
 
@@ -26,14 +30,14 @@ public class ClienteMockData {
     private static String generateValidBirthDate() {
         LocalDate today = LocalDate.now();
         LocalDate birthDate = today.minusYears(18).minusDays(1);
-        return birthDate.format(DATE_FORMATTER);
+        return birthDate.toString();
     }
 
     // Gerar data de nascimento inválida (menor de idade)
     private static String generateUnderageBirthDate() {
         LocalDate today = LocalDate.now();
         LocalDate birthDate = today.minusYears(17);
-        return birthDate.format(DATE_FORMATTER);
+        return birthDate.toString();
     }
 
     // DTO válido básico
@@ -136,21 +140,25 @@ public class ClienteMockData {
 
     public static Cliente validCliente() {
         InputCreateClienteDTO valid = validInput();
-        return Cliente.criar(
+        var endereco = new Endereco(
+                valid.cep(),
+                valid.enderecoCompleto(),
+                valid.latitude(),
+                valid.longitude()
+        );
+        var telefone = new Telefone(
+                valid.telefone(),
+                valid.ddd()
+        );
+        return Cliente.reconstituir(
+                UUID.randomUUID().toString(),
                 valid.nome(),
-                valid.cpf(),
+                new CPF(valid.cpf()),
                 valid.email(),
                 LocalDate.parse(valid.dataNascimento()),
-                new Endereco(
-                        valid.cep(),
-                        valid.enderecoCompleto(),
-                        valid.latitude(),
-                        valid.longitude()
-                ),
-                new Telefone(
-                        valid.telefone(),
-                        valid.ddd()
-                )
+                Set.of(endereco),
+                Set.of(telefone)
+
         );
     }
 }

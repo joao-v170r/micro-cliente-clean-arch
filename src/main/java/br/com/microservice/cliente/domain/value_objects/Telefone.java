@@ -9,8 +9,8 @@ public record Telefone(
         if(!numeroTelefoneValido(numero)){
             throw new IllegalArgumentException("numero de telofone está invalido");
         }
-        if(ddd.length() == 2) {
-            throw new IllegalArgumentException("ddd do telefone invalido");
+        if(ddd.length() != 2) {
+            throw new IllegalArgumentException("ddd: {"+ddd+"} do telefone invalido");
         }
     }
 

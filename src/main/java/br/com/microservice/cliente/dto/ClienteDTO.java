@@ -7,7 +7,7 @@ import java.time.LocalDate;
 import java.util.Set;
 
 public record ClienteDTO(
-        Long id,
+        String id,
         String nome,
         String cpf,
         String email,

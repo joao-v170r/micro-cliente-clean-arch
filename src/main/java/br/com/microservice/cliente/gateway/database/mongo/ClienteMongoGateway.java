@@ -9,6 +9,7 @@ import br.com.microservice.cliente.gateway.exception.mongo.ClienteMongoError;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -38,9 +39,9 @@ public class ClienteMongoGateway implements CrudClienteGateway {
     }
 
     @Override
-    public Optional<Cliente> findById(Long id) {
+    public Optional<Cliente> findById(String id) {
         try {
-            if (id == null || id <= 0) {
+            if (id == null || id.isBlank()) {
                 throw new ClienteMongoError.ClienteInvalidArgumentException("id do cliente inválido.");
             }
 
@@ -54,7 +55,7 @@ public class ClienteMongoGateway implements CrudClienteGateway {
     }
 
     @Override
-    public Boolean existId(Long id) {
+    public Boolean existId(String id) {
         try {
             return repository.existsById(id);
         } catch (Exception e) {
@@ -96,7 +97,7 @@ public class ClienteMongoGateway implements CrudClienteGateway {
     }
 
     @Override
-    public void deleteById(Long id) {
+    public void deleteById(String id) {
         try {
             if (!repository.existsById(id)) {
                 throw new ClienteMongoError.ClienteNotFoundException("cliente não encontrado para exclusão.");
@@ -106,5 +107,10 @@ public class ClienteMongoGateway implements CrudClienteGateway {
             log.error("Falha ao excluir cliente com ID: {}", id, e);
             throw new ClienteMongoError.ClientePersistenceException("erro ao excluir cliente.", e);
         }
+    }
+
+    @Override
+    public List<Cliente> findAll(Pageable page) {
+        return repository.findAll(page).map(ClienteMapper::mapToDomain).stream().toList();
     }
 }

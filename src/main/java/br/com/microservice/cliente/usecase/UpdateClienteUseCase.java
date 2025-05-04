@@ -16,7 +16,7 @@ public class UpdateClienteUseCase {
         this.gateway = gateway;
     }
 
-    public ClienteDTO update(Long id, UpdateClienteDTO clienteDTO) {
+    public ClienteDTO update(String id, UpdateClienteDTO clienteDTO) {
         Cliente cliente = gateway.findById(id)
                 .orElseThrow(() -> new RuntimeException("UpdateClienteUseCase: id do cliente não encontrado"));
 

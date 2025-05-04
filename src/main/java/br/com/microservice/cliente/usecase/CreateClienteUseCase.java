@@ -1,6 +1,7 @@
 package br.com.microservice.cliente.usecase;
 
 import br.com.microservice.cliente.domain.Cliente;
+import br.com.microservice.cliente.domain.value_objects.CPF;
 import br.com.microservice.cliente.dto.ClienteDTO;
 import br.com.microservice.cliente.dto.usecase.CreateClienteDTO;
 import br.com.microservice.cliente.exception.ClienteError;
@@ -32,7 +33,7 @@ public class CreateClienteUseCase {
 
         var cliente = Cliente.criar(
                 clienteDTO.nome(),
-                clienteDTO.cpf(),
+                new CPF(clienteDTO.cpf()),
                 clienteDTO.email(),
                 clienteDTO.dataNascimento(),
                 clienteDTO.endereco(),

@@ -8,6 +8,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
+import org.springframework.data.mongodb.core.mapping.FieldType;
 
 import java.time.LocalDate;
 import java.util.Set;
@@ -18,7 +19,7 @@ import java.util.UUID;
 @Document(collection = "cliente")
 public class ClienteEntity {
     @Id
-    private Long id;
+    private String id;
     private String nome;
     @Indexed(unique = true)
     private String cpf;

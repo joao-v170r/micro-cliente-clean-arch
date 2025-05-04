@@ -9,10 +9,10 @@ import java.util.UUID;
 
 public interface CrudClienteGateway {
     Optional<Cliente> findByCpf(String cpf);
-    Optional<Cliente> findById(Long id);
-    Boolean existId(Long id);
+    Optional<Cliente> findById(String id);
+    Boolean existId(String id);
     List<Cliente> findAll();
     Cliente save(Cliente cliente);
-    void deleteById(Long id);
+    void deleteById(String id);
     List<Cliente> findAll(Pageable page);
 }
