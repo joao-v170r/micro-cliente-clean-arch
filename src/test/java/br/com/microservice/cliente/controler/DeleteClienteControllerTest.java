@@ -43,8 +43,12 @@ class DeleteClienteControllerTest {
     ObjectMapper objectMapper;
 
     @Test
-    void createSucess() throws Exception {
+    void deleteSucess() throws Exception {
         InputCreateClienteDTO input = ClienteMockData.validInput();
+        Cliente clienteMock = ClienteMockData.validCliente();
+
+        when(gateway.findById(any()))
+                .thenReturn(Optional.of(clienteMock));
 
         mockMvc.perform(
                         delete("/delete-cliente/{id}", UUID.randomUUID().toString())
@@ -53,18 +57,11 @@ class DeleteClienteControllerTest {
     }
 
     @Test
-    void createWithClienteAlreadyExistsException() throws Exception {
-        InputCreateClienteDTO input = ClienteMockData.validInput();
-        Cliente clienteMock = ClienteMockData.validCliente();
-
-        when(gateway.findByCpf(any()))
-                .thenReturn(Optional.of(clienteMock));
-
+    void deleteWithClienteNotFoundException() throws Exception {
         mockMvc.perform(
-                        post("/create-cliente")
+                        delete("/delete-cliente/{id}",UUID.randomUUID().toString())
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .content(objectMapper.writeValueAsString(input))
-                ).andExpect(status().isConflict())
-                .andExpect(jsonPath("$.message", is("CPF já foi utilizado")));
+                ).andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.message", is("Cliente não encontrado")));
     }
 }

@@ -1,6 +1,7 @@
 package br.com.microservice.cliente.usecase;
 
 import br.com.microservice.cliente.domain.Cliente;
+import br.com.microservice.cliente.exception.ClienteError;
 import br.com.microservice.cliente.gateway.CrudClienteGateway;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +15,7 @@ public class DeleteClienteUseCase {
     }
 
     public void delete(String id) {
-        Cliente cliente = gateway.findById(id).orElseThrow(RuntimeException::new);
+        Cliente cliente = gateway.findById(id).orElseThrow(() -> new ClienteError.ClienteNotFoundException("Cliente não encontrado"));
         gateway.deleteById(cliente.getId());
     }
 }
