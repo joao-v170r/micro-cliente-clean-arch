@@ -24,7 +24,6 @@ import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -38,9 +37,6 @@ class DeleteClienteControllerTest {
 
     @MockitoBean
     CrudClienteGateway gateway;
-
-    @Autowired
-    ObjectMapper objectMapper;
 
     @Test
     void deleteSucess() throws Exception {

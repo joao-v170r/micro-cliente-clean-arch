@@ -4,17 +4,18 @@ import br.com.microservice.cliente.domain.Cliente;
 import br.com.microservice.cliente.dto.rest_controller.InputCreateClienteDTO;
 import br.com.microservice.cliente.gateway.CrudClienteGateway;
 import br.com.microservice.cliente.usecase.CreateClienteUseCase;
+import br.com.microservice.cliente.usecase.mapper.ClienteMapper;
 import br.com.microservice.cliente.utils.ClienteMockData;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.json.JsonParser;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.Optional;
 
@@ -37,7 +38,7 @@ class CreateClienteControllerTest {
     CrudClienteGateway gateway;
 
     @Autowired
-    ObjectMapper objectMapper;
+    ObjectMapper mapper;
 
     @Test
     void createSucess() throws Exception {
@@ -47,12 +48,14 @@ class CreateClienteControllerTest {
         when(gateway.save(any()))
                 .thenReturn(clienteMock);
 
+        String resultExpectedJson = mapper.writeValueAsString(ClienteMapper.mapToDTO(clienteMock));
+
         mockMvc.perform(
                     post("/create-cliente")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(input))
+                        .content(mapper.writeValueAsString(input))
                 ).andExpect(status().isCreated())
-                    .andExpect(jsonPath("$.id").value(clienteMock.getId()));
+                    .andExpect(MockMvcResultMatchers.content().json(resultExpectedJson));
     }
 
     @Test
@@ -66,7 +69,7 @@ class CreateClienteControllerTest {
         mockMvc.perform(
                         post("/create-cliente")
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .content(objectMapper.writeValueAsString(input))
+                                .content(mapper.writeValueAsString(input))
                 ).andExpect(status().isConflict())
                 .andExpect(jsonPath("$.message", is("CPF já foi utilizado")));
     }

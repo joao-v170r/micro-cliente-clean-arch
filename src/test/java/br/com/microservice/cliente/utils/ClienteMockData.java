@@ -5,10 +5,11 @@ import br.com.microservice.cliente.domain.value_objects.CPF;
 import br.com.microservice.cliente.domain.value_objects.Endereco;
 import br.com.microservice.cliente.domain.value_objects.Telefone;
 import br.com.microservice.cliente.dto.rest_controller.InputCreateClienteDTO;
+import br.com.microservice.cliente.dto.rest_controller.InputUpdateClienteDTO;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -135,6 +136,25 @@ public class ClienteMockData {
                 valid.longitude(),
                 valid.telefone(),
                 valid.ddd()
+        );
+    }
+
+    public static InputUpdateClienteDTO validInputUpdateClienteDTO() {
+        InputCreateClienteDTO valid = validInputWithDifferentCpf();
+        return new InputUpdateClienteDTO(
+                valid.nome(),
+                valid.email(),
+                valid.dataNascimento(),
+                List.of(new Endereco(
+                        valid.cep(),
+                        valid.enderecoCompleto(),
+                        valid.latitude(),
+                        valid.longitude()
+                )),
+                List.of(new Telefone(
+                        valid.telefone(),
+                        valid.ddd()
+                ))
         );
     }
 

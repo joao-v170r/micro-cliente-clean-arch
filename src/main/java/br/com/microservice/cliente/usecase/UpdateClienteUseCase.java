@@ -3,6 +3,7 @@ package br.com.microservice.cliente.usecase;
 import br.com.microservice.cliente.domain.Cliente;
 import br.com.microservice.cliente.dto.ClienteDTO;
 import br.com.microservice.cliente.dto.usecase.UpdateClienteDTO;
+import br.com.microservice.cliente.exception.ClienteError;
 import br.com.microservice.cliente.gateway.CrudClienteGateway;
 import br.com.microservice.cliente.usecase.mapper.ClienteMapper;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,7 @@ public class UpdateClienteUseCase {
 
     public ClienteDTO update(String id, UpdateClienteDTO clienteDTO) {
         Cliente cliente = gateway.findById(id)
-                .orElseThrow(() -> new RuntimeException("UpdateClienteUseCase: id do cliente não encontrado"));
+                .orElseThrow(() -> new ClienteError.ClienteNotFoundException("UpdateClienteUseCase: id do cliente não encontrado"));
 
         if(clienteDTO.nome()!= null) {
             cliente.setNome(clienteDTO.nome());

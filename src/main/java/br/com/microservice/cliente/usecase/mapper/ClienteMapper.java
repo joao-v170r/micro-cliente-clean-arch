@@ -21,7 +21,7 @@ public class ClienteMapper {
         return new ClienteDTO(
                 cliente.getId(),
                 cliente.getNome(),
-                cliente.getCpf().toString(),
+                cliente.getCpf().numero(),
                 cliente.getEmail(),
                 cliente.getDataNascimento(),
                 cliente.getEnderecos(),

@@ -22,7 +22,7 @@ public class ReadClienteUserCase {
 
     public ClienteDTO find(String id) {
         Cliente cliente = gateway.findById(id).orElseThrow(
-                () -> new ClienteError.ClienteNotFoundException("cliente não encontrado"));
+                () -> new ClienteError.ClienteNotFoundException("Cliente não encontrado"));
         return ClienteMapper.mapToDTO(cliente);
     }
 
