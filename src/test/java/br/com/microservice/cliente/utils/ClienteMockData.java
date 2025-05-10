@@ -6,6 +6,8 @@ import br.com.microservice.cliente.domain.value_objects.Endereco;
 import br.com.microservice.cliente.domain.value_objects.Telefone;
 import br.com.microservice.cliente.dto.rest_controller.InputCreateClienteDTO;
 import br.com.microservice.cliente.dto.rest_controller.InputUpdateClienteDTO;
+import br.com.microservice.cliente.gateway.database.mongo.entity.ClienteEntity;
+import br.com.microservice.cliente.gateway.database.mongo.mapper.ClienteMapper;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -88,6 +90,11 @@ public class ClienteMockData {
                 valid.telefone(),
                 valid.ddd()
         );
+    }
+
+    public static ClienteEntity validClienteEntity() {
+        Cliente clienteDTO = validCliente();
+        return ClienteMapper.mapToEntity(clienteDTO);
     }
 
     public static InputCreateClienteDTO invalidInputWithInvalidCpf() {

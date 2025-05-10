@@ -25,3 +25,23 @@ public record Endereco(
     }
 
 }
+/*
+{
+    "nome": "João Silva",
+    "email": "joao.silva@example.com",
+    "dataNascimento": "1990-01-01",
+    "enderecos": [
+        {
+        "enderecoCompleto": "Rua Exemplo,123, São Paulo, SP",
+        "latitude": 10,
+        "longitude": 10,
+        "cep": "01234-567"
+        }
+    ],
+    "telefones": [
+        {
+        "ddd": "11",
+        "numero": "987654321"
+       }
+    ]
+}*/

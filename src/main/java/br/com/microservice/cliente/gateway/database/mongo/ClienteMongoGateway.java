@@ -24,11 +24,12 @@ public class ClienteMongoGateway implements CrudClienteGateway {
 
     @Override
     public Optional<Cliente> findByCpf(String cpf) {
-        try {
-            if (cpf == null || cpf.isBlank()) {
-                throw new ClienteMongoError.ClienteInvalidArgumentException("cpf não pode ser vazio ou nulo.");
-            }
 
+        if (cpf == null || cpf.isBlank()) {
+            throw new ClienteMongoError.ClienteInvalidArgumentException("cpf não pode ser vazio ou nulo.");
+        }
+
+        try {
             Optional<ClienteEntity> entity = repository.findByCpf(cpf);
             return entity.map(ClienteMapper::mapToDomain);
 
@@ -40,11 +41,12 @@ public class ClienteMongoGateway implements CrudClienteGateway {
 
     @Override
     public Optional<Cliente> findById(String id) {
-        try {
-            if (id == null || id.isBlank()) {
-                throw new ClienteMongoError.ClienteInvalidArgumentException("id do cliente inválido.");
-            }
 
+        if (id == null || id.isBlank()) {
+            throw new ClienteMongoError.ClienteInvalidArgumentException("id do cliente inválido.");
+        }
+
+        try {
             Optional<ClienteEntity> entity = repository.findById(id);
             return entity.map(ClienteMapper::mapToDomain);
 
@@ -98,10 +100,12 @@ public class ClienteMongoGateway implements CrudClienteGateway {
 
     @Override
     public void deleteById(String id) {
+
+        if (!repository.existsById(id)) {
+            throw new ClienteMongoError.ClienteNotFoundException("cliente não encontrado para exclusão.");
+        }
+
         try {
-            if (!repository.existsById(id)) {
-                throw new ClienteMongoError.ClienteNotFoundException("cliente não encontrado para exclusão.");
-            }
             repository.deleteById(id);
         } catch (Exception e) {
             log.error("Falha ao excluir cliente com ID: {}", id, e);
