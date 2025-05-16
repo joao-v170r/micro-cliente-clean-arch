@@ -32,7 +32,6 @@ public class ClienteMongoGateway implements CrudClienteGateway {
         try {
             Optional<ClienteEntity> entity = repository.findByCpf(cpf);
             return entity.map(ClienteMapper::mapToDomain);
-
         } catch (Exception e) {
             log.error("Falha ao buscar cliente por CPF: {}", cpf, e);
             throw new ClienteMongoError.ClientePersistenceException("erro ao acessar o banco de dados.", e);
@@ -49,7 +48,6 @@ public class ClienteMongoGateway implements CrudClienteGateway {
         try {
             Optional<ClienteEntity> entity = repository.findById(id);
             return entity.map(ClienteMapper::mapToDomain);
-
         } catch (Exception e) {
             log.error("Falha ao buscar cliente por ID: {}", id, e);
             throw new ClienteMongoError.ClientePersistenceException("erro ao acessar o banco de dados.", e);
