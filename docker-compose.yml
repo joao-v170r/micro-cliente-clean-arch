@@ -1,51 +1,59 @@
+version: '3.8'
+
 services:
   app:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: spring-microservice
+    container_name: cliente-app
     ports:
       - "8080:8080"
     environment:
-      - SPRING_DATA_MONGODB_URI=mongodb://admin:admin123@mongodb:27017/microservice_db?authSource=admin
+      - SPRING_DATA_MONGODB_URI=mongodb://admin:admin123@mongo-cliente:27017/db_cliente?authSource=admin
+      - SPRING_PROFILES_ACTIVE=prod
     depends_on:
-      - mongodb
+      mongo-cliente:
+        condition: service_healthy
     networks:
-      - spring-mongo-network
+      - cliente-network
+      - microservices-net
+    restart: unless-stopped
+    healthcheck:
+      test: |
+        mongosh --quiet --eval '
+        db.getSiblingDB("admin").auth("admin", "admin123");
+        db.adminCommand({ ping: 1 })'
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
-  mongodb:
+  mongo-cliente:
     image: mongo:7.0
-    container_name: mongodb
+    container_name: mongo-cliente
     ports:
-      - "27017:27017"
+      - "27017:27017" # Expor apenas se necessário para acesso externo
     volumes:
-      - mongodb_data:/data/db
+      - mongodb_cliente_data:/data/db # Volume específico para este serviço
       - ./mongo-init:/docker-entrypoint-initdb.d
     environment:
       - MONGO_INITDB_ROOT_USERNAME=admin
       - MONGO_INITDB_ROOT_PASSWORD=admin123
+      - MONGO_INITDB_DATABASE=db_cliente
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 5s
+      timeout: 30s
+      retries: 5
     networks:
-      - spring-mongo-network
-
-  mongo-express:
-    image: mongo-express:1.0
-    container_name: mongo-express
-    ports:
-      - "8081:8081"
-    environment:
-      - ME_CONFIG_MONGODB_SERVER=mongodb
-      - ME_CONFIG_MONGODB_ADMINUSERNAME=admin
-      - ME_CONFIG_MONGODB_ADMINPASSWORD=admin123
-      - ME_CONFIG_BASICAUTH_USERNAME=user
-      - ME_CONFIG_BASICAUTH_PASSWORD=user123
-    depends_on:
-      - mongodb
-    networks:
-      - spring-mongo-network
+      - cliente-network
+    restart: unless-stopped
 
 networks:
-  spring-mongo-network:
+  cliente-network:
     driver: bridge
+    name: cliente-network # Nome explícito para facilitar conexões externas
+  microservices-net:
+    external: true
 
 volumes:
-  mongodb_data:
+  mongodb_cliente_data: # Volume dedicado para este MongoDB
