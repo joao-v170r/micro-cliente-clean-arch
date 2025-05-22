@@ -88,3 +88,7 @@ Um script de inicialização (`mongo-init/init.js`) cria um usuário `cliente_mi
 ### Testes
 
 O projeto possui testes automatizados para as camadas de `controller`, `domain` e `gateway`, buscando garantir a qualidade e a cobertura do código. A cobertura de testes busca ser superior a 80%.
+
+<div align="center">
+    <img src="src/main/resources/img/teste.png" width="1466px" height="268px">
+</div>
