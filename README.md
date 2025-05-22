@@ -1,4 +1,4 @@
-# micro-cliente-clean-arch
+# Tech Challenge 04 - Cliente
 
 Microsserviço de gerenciamento de clientes utilizando arquitetura limpa. Este projeto faz parte do Tech Challenge 04 da pós-graduação de `Arquitetura e Desenvolvimento Java` na instituição FIAP.
 
